@@ -227,3 +227,19 @@ The suite covers registration/login/logout, current-role revocation, admin-only 
 3. Sign in as an officer created by the admin, claim a complaint in that officer's department, update status, and add a comment.
 4. Sign in as admin, create/rename departments and categories, configure SLAs, manage accounts, and review department performance and overdue complaints.
 5. Age an open complaint past the configured escalation threshold in a demo database and trigger escalation from the admin-facing API.
+
+## Application screenshots
+
+The following screenshots were captured from the production build:
+
+### Home
+
+![Civic Complaint Tracker home page](./home-screen.png)
+
+### Sign in
+
+![Sign-in page](./login-screen.png)
+
+### Citizen registration
+
+![Citizen registration page](./register-screen.png)

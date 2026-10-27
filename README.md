@@ -62,7 +62,7 @@ MONGODB_URI=mongodb://localhost:27017/civic_db \
 npm run test:integration
 ```
 
-See [the project report](./docs/project-report.md) for the ER diagram, data dictionary, database design rationale, sample queries, test scope, and demo walkthrough. See [the API contract](./docs/api-contract.md) for endpoint methods and role requirements.
+See [the project report](./docs/project-report.md) for the ER diagram, data dictionary, database design rationale, sample queries, test scope, demo walkthrough, and application screenshots. See [the API contract](./docs/api-contract.md) for endpoint methods and role requirements.
 
 ## Harsha's application areas
 - `/login`, `/register`, and `/admin` pages
