@@ -5,9 +5,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "create-admin": "node scripts/create-admin.mjs"
   },
   "dependencies": {
+    "@next/env": "^14.2.15",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^6.8.0",
@@ -17,6 +19,7 @@
     "react-dom": "18.3.1"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "20.12.12",
     "@types/pg": "^8.11.6",
