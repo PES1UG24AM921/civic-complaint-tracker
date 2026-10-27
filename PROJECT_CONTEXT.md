@@ -30,7 +30,7 @@ Next.js (App Router, TypeScript) · PostgreSQL · MongoDB · JWT auth (httpOnly 
 - **MongoDB** holds flexible, text-heavy, variable-shape data: incident descriptions (with optional location, attachments metadata, tags) and comment threads. Stored in collections `incidents` and `comments`, linked to Postgres via `complaints.mongo_doc_id` (incident `_id`) and `complaint_id` in comment docs.
 
 ## SQL source of truth
-`db/schema.sql` is the schema. Do not edit it casually. Changes go in `db/migrations/NNN_description.sql` and must be agreed by both members. Never invent tables or columns that are not in the schema or a migration.
+`schema.sql` at the repository root is the current schema. Do not edit it casually. Schema changes must be agreed by both members and documented with the project. Never invent tables or columns that are not in the schema.
 
 Schema summary: `departments`, `users` (role: citizen|officer|admin; officers must have dept_id), `categories` (belong to a department), `sla_rules` (category + priority -> resolve_hours, escalate_after_hours), `complaints` (status: open|assigned|in_progress|resolved|closed; priority: low|medium|high|critical; escalation_level 0–3; sla_deadline set by trigger), `complaint_history` (filled by trigger), `escalations`.
 DB objects: triggers `trg_set_sla`, `trg_stamp_resolved`, `trg_log_status`; procedure `sp_assign_complaint(complaint_id, officer_id)`; function `fn_escalate_overdue()` (returns number escalated); views `v_overdue_complaints`, `v_dept_performance`; full-text index on `complaints.title_tsv`.
@@ -55,7 +55,7 @@ Shared (write once, don't rewrite): `lib/db.ts` (Postgres pool), `lib/mongo.ts` 
 `DATABASE_URL`, `MONGODB_URI`, `JWT_SECRET` — see `.env.example`. Never commit `.env`.
 
 ## Rules for any coding agent / LLM
-1. Read `db/schema.sql` and `docs/api-contract.md` before writing code.
+1. Read `schema.sql` and `docs/api-contract.md` before writing code.
 2. Use only the endpoints, tables and columns defined there. If something is missing, propose the change instead of silently inventing it.
 3. Work on one route or page at a time, inside the owner's folders.
 4. Use parameterized queries only (no string-built SQL).

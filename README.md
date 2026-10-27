@@ -46,6 +46,24 @@ Requirements: Node.js 20 or later, PostgreSQL, and MongoDB (local or hosted).
 
 MongoDB creates the `comments` collection and database on first comment write. Comment documents are associated with complaint IDs from PostgreSQL.
 
+## Verification
+
+Run the production build:
+
+```sh
+npm run build
+```
+
+The integration suite creates and drops a uniquely named PostgreSQL database using the connection in `TEST_DATABASE_URL`; it never targets the normal application PostgreSQL database. The suite also writes temporary incident and comment documents to the configured MongoDB `civic_db`, checks that its reserved complaint-ID range is unused, and removes only those test documents. Use a disposable local MongoDB instance.
+
+```sh
+TEST_DATABASE_URL=postgresql://localhost:5432/postgres \
+MONGODB_URI=mongodb://localhost:27017/civic_db \
+npm run test:integration
+```
+
+See [the project report](./docs/project-report.md) for the ER diagram, data dictionary, database design rationale, sample queries, test scope, and demo walkthrough. See [the API contract](./docs/api-contract.md) for endpoint methods and role requirements.
+
 ## Harsha's application areas
 - `/login`, `/register`, and `/admin` pages
 - `/api/auth/*`, `/api/departments/*`, and `/api/comments/[complaintId]` routes

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from '@/lib/auth';
+import { getCurrentSession } from '@/app/api/auth/current-session';
 import { db } from '@/lib/db';
 import { mongoDb } from '@/lib/mongo';
 
@@ -36,7 +36,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { complaintId: string } }
 ) {
-  const session = getSession(request);
+  const session = await getCurrentSession(request);
   if (!session) return NextResponse.json({ error: 'Authentication required.' }, { status: 401 });
   const complaintId = Number(params.complaintId);
   if (!Number.isInteger(complaintId) || complaintId < 1) {
@@ -89,7 +89,7 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { complaintId: string } }
 ) {
-  const session = getSession(request);
+  const session = await getCurrentSession(request);
   if (!session) return NextResponse.json({ error: 'Authentication required.' }, { status: 401 });
   const complaintId = Number(params.complaintId);
   if (!Number.isInteger(complaintId) || complaintId < 1) {

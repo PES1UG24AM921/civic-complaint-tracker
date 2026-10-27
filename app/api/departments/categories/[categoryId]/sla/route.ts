@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from '@/lib/auth';
+import { getCurrentSession } from '@/app/api/auth/current-session';
 import { db } from '@/lib/db';
 
 type RouteContext = { params: { categoryId: string } };
@@ -26,7 +26,7 @@ export async function GET(_request: NextRequest, { params }: RouteContext) {
 }
 
 export async function PATCH(request: NextRequest, { params }: RouteContext) {
-  const session = getSession(request);
+  const session = await getCurrentSession(request);
   if (!session) return NextResponse.json({ error: 'Authentication required.' }, { status: 401 });
   if (session.role !== 'admin') return NextResponse.json({ error: 'Administrator access required.' }, { status: 403 });
 
@@ -65,7 +65,7 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
 }
 
 export async function DELETE(request: NextRequest, { params }: RouteContext) {
-  const session = getSession(request);
+  const session = await getCurrentSession(request);
   if (!session) return NextResponse.json({ error: 'Authentication required.' }, { status: 401 });
   if (session.role !== 'admin') return NextResponse.json({ error: 'Administrator access required.' }, { status: 403 });
 
@@ -88,7 +88,7 @@ export async function DELETE(request: NextRequest, { params }: RouteContext) {
 }
 
 export async function POST(request: NextRequest, { params }: RouteContext) {
-  const session = getSession(request);
+  const session = await getCurrentSession(request);
   if (!session) return NextResponse.json({ error: 'Authentication required.' }, { status: 401 });
   if (session.role !== 'admin') return NextResponse.json({ error: 'Administrator access required.' }, { status: 403 });
 
