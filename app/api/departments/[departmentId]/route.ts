@@ -54,6 +54,9 @@ export async function DELETE(request: NextRequest, { params }: RouteContext) {
     if (typeof error === 'object' && error !== null && 'code' in error && error.code === '23503') {
       return NextResponse.json({ error: 'Department is in use and cannot be deleted.' }, { status: 409 });
     }
+    if (typeof error === 'object' && error !== null && 'code' in error && error.code === '23514') {
+      return NextResponse.json({ error: 'Department is assigned to officers and cannot be deleted.' }, { status: 409 });
+    }
     console.error('Unable to delete department:', error);
     return NextResponse.json({ error: 'Unable to delete department.' }, { status: 500 });
   }

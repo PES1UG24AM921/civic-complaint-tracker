@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     if (name.length < 2 || name.length > 100 ||
         !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || email.length > 150 ||
-        password.length < 8 || password.length > 128 ||
+        password.length < 8 || Buffer.byteLength(password, 'utf8') > 72 ||
         !['citizen', 'officer', 'admin'].includes(role) ||
         (role === 'officer' && (!Number.isInteger(deptId) || Number(deptId) < 1)) ||
         (deptId !== null && (!Number.isInteger(deptId) || deptId < 1))) {

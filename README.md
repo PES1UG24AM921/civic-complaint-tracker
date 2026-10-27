@@ -27,7 +27,7 @@ Requirements: Node.js 20 or later, PostgreSQL, and MongoDB (local or hosted).
 2. Create the PostgreSQL database, then apply the schema:
    ```sh
    createdb civic_db
-   psql "postgresql://USER:PASSWORD@localhost:5432/civic_db" -f schema.sql
+   psql "postgresql://localhost:5432/civic_db" -f schema.sql
    ```
 3. Copy `.env.example` to `.env.local` and set `DATABASE_URL`, `MONGODB_URI`, and a strong `JWT_SECRET`.
 4. Create the initial admin account (only allowed when no admin exists). The script loads `DATABASE_URL` from `.env.local`; set the admin details temporarily in your terminal:

@@ -123,7 +123,7 @@ export default function AdminPage() {
           <form onSubmit={(event) => handleCreate(event, () => '/api/auth/users')}>
             <label>Name<input name="name" required minLength={2} maxLength={100} /></label>
             <label>Email<input name="email" type="email" required maxLength={150} /></label>
-            <label>Temporary password<input name="password" type="password" required minLength={8} maxLength={128} /></label>
+            <label>Temporary password<input name="password" type="password" required minLength={8} maxLength={72} /></label>
             <label>Role
               <select name="role" required defaultValue="officer">
                 <option value="citizen">Citizen</option><option value="officer">Officer</option><option value="admin">Admin</option>

@@ -11,6 +11,9 @@ export async function POST(request: NextRequest) {
     if (!email || !password) {
       return NextResponse.json({ error: 'Email and password are required.' }, { status: 400 });
     }
+    if (Buffer.byteLength(password, 'utf8') > 72) {
+      return NextResponse.json({ error: 'Password must not exceed 72 UTF-8 bytes.' }, { status: 400 });
+    }
 
     const result = await db.query(
       `SELECT user_id, name, email, password_hash, role, dept_id
