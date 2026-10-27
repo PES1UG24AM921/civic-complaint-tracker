@@ -45,7 +45,7 @@ export default function RegisterPage() {
         <form onSubmit={handleSubmit}>
           <label>Name<input name="name" autoComplete="name" required minLength={2} maxLength={100} /></label>
           <label>Email<input name="email" type="email" autoComplete="email" required maxLength={150} /></label>
-          <label>Password<input name="password" type="password" autoComplete="new-password" required minLength={8} maxLength={128} /></label>
+          <label>Password<input name="password" type="password" autoComplete="new-password" required minLength={8} maxLength={72} /></label>
           {error && <p role="alert" className="tag danger">{error}</p>}
           <button type="submit" disabled={busy}>{busy ? 'Creating account…' : 'Register'}</button>
         </form>

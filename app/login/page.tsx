@@ -43,7 +43,7 @@ export default function LoginPage() {
       <section className="panel" style={{ maxWidth: 520, margin: '0 auto' }}>
         <form onSubmit={handleSubmit}>
           <label>Email<input name="email" type="email" autoComplete="email" required maxLength={150} /></label>
-          <label>Password<input name="password" type="password" autoComplete="current-password" required /></label>
+          <label>Password<input name="password" type="password" autoComplete="current-password" required maxLength={72} /></label>
           {error && <p role="alert" className="tag danger">{error}</p>}
           <button type="submit" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</button>
         </form>

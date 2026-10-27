@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "create-admin": "node scripts/create-admin.mjs"
+    "create-admin": "node scripts/create-admin.mjs",
+    "test:integration": "node scripts/test-integration.mjs"
   },
   "dependencies": {
     "@next/env": "^14.2.15",

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { getSession } from '@/lib/auth';
+import { getCurrentSession } from '@/app/api/auth/current-session';
 import { db } from '@/lib/db';
 
 type RouteContext = { params: { userId: string } };
@@ -11,7 +11,7 @@ function getUserId(value: string) {
 }
 
 export async function PATCH(request: NextRequest, { params }: RouteContext) {
-  const session = getSession(request);
+  const session = await getCurrentSession(request);
   if (!session) return NextResponse.json({ error: 'Authentication required.' }, { status: 401 });
   if (session.role !== 'admin') return NextResponse.json({ error: 'Administrator access required.' }, { status: 403 });
 
@@ -58,14 +58,20 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
     if (body.role !== undefined) {
       if (!['citizen', 'officer', 'admin'].includes(body.role)) return NextResponse.json({ error: 'Invalid account role.' }, { status: 400 });
       if (userId === session.userId && body.role !== session.role) return NextResponse.json({ error: 'You cannot change your own role.' }, { status: 400 });
+      if (existing.rows[0].role === 'admin' && body.role !== 'admin') {
+        const adminCount = await db.query("SELECT COUNT(*)::int AS count FROM users WHERE role = 'admin';");
+        if (adminCount.rows[0].count <= 1) {
+          return NextResponse.json({ error: 'Cannot demote the last administrator.' }, { status: 409 });
+        }
+      }
       addField('role', body.role);
     }
     if (body.dept_id !== undefined) {
       addField('dept_id', nextDeptId);
     }
     if (body.password !== undefined) {
-      if (typeof body.password !== 'string' || body.password.length < 8 || body.password.length > 128) {
-        return NextResponse.json({ error: 'Password must be between 8 and 128 characters.' }, { status: 400 });
+      if (typeof body.password !== 'string' || body.password.length < 8 || Buffer.byteLength(body.password, 'utf8') > 72) {
+        return NextResponse.json({ error: 'Password must be at least 8 characters and no more than 72 UTF-8 bytes.' }, { status: 400 });
       }
       addField('password_hash', await bcrypt.hash(body.password, 12));
     }
@@ -92,7 +98,7 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
 }
 
 export async function DELETE(request: NextRequest, { params }: RouteContext) {
-  const session = getSession(request);
+  const session = await getCurrentSession(request);
   if (!session) return NextResponse.json({ error: 'Authentication required.' }, { status: 401 });
   if (session.role !== 'admin') return NextResponse.json({ error: 'Administrator access required.' }, { status: 403 });
   const userId = getUserId(params.userId);

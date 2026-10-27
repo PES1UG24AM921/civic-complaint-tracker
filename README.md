@@ -27,7 +27,7 @@ Requirements: Node.js 20 or later, PostgreSQL, and MongoDB (local or hosted).
 2. Create the PostgreSQL database, then apply the schema:
    ```sh
    createdb civic_db
-   psql "postgresql://USER:PASSWORD@localhost:5432/civic_db" -f schema.sql
+   psql "postgresql://localhost:5432/civic_db" -f schema.sql
    ```
 3. Copy `.env.example` to `.env.local` and set `DATABASE_URL`, `MONGODB_URI`, and a strong `JWT_SECRET`.
 4. Create the initial admin account (only allowed when no admin exists). The script loads `DATABASE_URL` from `.env.local`; set the admin details temporarily in your terminal:
@@ -45,6 +45,24 @@ Requirements: Node.js 20 or later, PostgreSQL, and MongoDB (local or hosted).
    ```
 
 MongoDB creates the `comments` collection and database on first comment write. Comment documents are associated with complaint IDs from PostgreSQL.
+
+## Verification
+
+Run the production build:
+
+```sh
+npm run build
+```
+
+The integration suite creates and drops a uniquely named PostgreSQL database using the connection in `TEST_DATABASE_URL`; it never targets the normal application PostgreSQL database. The suite also writes temporary incident and comment documents to the configured MongoDB `civic_db`, checks that its reserved complaint-ID range is unused, and removes only those test documents. Use a disposable local MongoDB instance.
+
+```sh
+TEST_DATABASE_URL=postgresql://localhost:5432/postgres \
+MONGODB_URI=mongodb://localhost:27017/civic_db \
+npm run test:integration
+```
+
+See [the project report](./docs/project-report.md) for the ER diagram, data dictionary, database design rationale, sample queries, test scope, demo walkthrough, and application screenshots. See [the API contract](./docs/api-contract.md) for endpoint methods and role requirements.
 
 ## Harsha's application areas
 - `/login`, `/register`, and `/admin` pages

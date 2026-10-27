@@ -16,8 +16,8 @@ export async function POST(request: NextRequest) {
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || email.length > 150) {
       return NextResponse.json({ error: 'Enter a valid email address.' }, { status: 400 });
     }
-    if (password.length < 8 || password.length > 128) {
-      return NextResponse.json({ error: 'Password must be between 8 and 128 characters.' }, { status: 400 });
+    if (password.length < 8 || Buffer.byteLength(password, 'utf8') > 72) {
+      return NextResponse.json({ error: 'Password must be at least 8 characters and no more than 72 UTF-8 bytes.' }, { status: 400 });
     }
     const secret = process.env.JWT_SECRET;
     if (!secret) {
