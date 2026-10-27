@@ -182,6 +182,11 @@ form {
   gap: 16px;
 }
 
+.form-stack {
+  display: grid;
+  gap: 16px;
+}
+
 label {
   display: grid;
   gap: 8px;
