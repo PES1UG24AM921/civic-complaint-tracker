@@ -1,0 +1,29 @@
+Schema and migration verification log
+===================================
+
+The repo contains the PostgreSQL source of truth in schema.sql and the department-hierarchy migration in db/migrations/002_department_hierarchy.sql.
+
+Validation status in the current environment:
+- PostgreSQL client tools were not available or reachable from this sandbox.
+- The schema verification was therefore limited to repository inspection and build validation.
+- The repository is set up to run the live command below in a configured PostgreSQL environment:
+  npm run ddl-demo
+
+Expected live output:
+- schema.sql applied successfully
+- migration 002_department_hierarchy.sql applied successfully
+- public tables enumerated in order
+- recursive department tree support available through parent_dept_id and related views
+
+Key objects checked in schema.sql:
+- departments (with parent_dept_id hierarchy support)
+- users
+- categories
+- sla_rules
+- complaints
+- complaint_history
+- escalations
+- views: v_overdue_complaints, v_dept_performance
+- trigger logic: trg_set_sla, trg_stamp_resolved, trg_log_status
+- stored procedure: sp_assign_complaint
+- function: fn_escalate_overdue

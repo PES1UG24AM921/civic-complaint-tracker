@@ -1,0 +1,35 @@
+Project tree snapshot
+====================
+
+civic-complaint-tracker-main/
+├── app/
+│   ├── admin/
+│   ├── api/
+│   ├── complaints/
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── login/
+│   ├── officer/
+│   ├── register/
+│   └── page.tsx
+├── components/
+├── db/
+│   └── migrations/
+├── docs/
+│   ├── api-contract.md
+│   ├── evidence/
+│   ├── home-screen.png
+│   ├── login-screen.png
+│   ├── project-report.md
+│   └── register-screen.png
+├── lib/
+├── scripts/
+├── .env.example
+├── .gitignore
+├── PROJECT_CONTEXT.md
+├── README.md
+├── next.config.mjs
+├── package.json
+├── schema.sql
+├── tsconfig.json
+└── package-lock.json

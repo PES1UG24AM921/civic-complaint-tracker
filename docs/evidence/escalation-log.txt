@@ -1,0 +1,18 @@
+Escalation trigger and procedure validation
+=========================================
+
+The escalation logic is implemented in the SQL schema and exercised by the script:
+- scripts/escalate-demo.mjs
+
+The script calls:
+- SELECT fn_escalate_overdue() AS escalated_count;
+- SELECT complaint_id, from_level, to_level, escalated_at FROM escalations ORDER BY escalated_at DESC LIMIT 10;
+
+Current environment status:
+- Live PostgreSQL database not configured in this sandbox, so the escalation procedure could not be executed here.
+- The app build and TypeScript/lint validation passed, which confirms the route and trigger wiring is present in the codebase.
+
+Expected live behavior:
+- overdue complaints are escalated one level at a time until level 3 is reached
+- escalation rows are logged in the escalations table
+- the function returns the number of complaints escalated in the run
